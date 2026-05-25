@@ -1,0 +1,25 @@
+# Backend 1: Despachos (Busca el Dockerfile directamente en la carpeta raíz)
+back-despachos:
+  build: ./back-Despachos_SpringBoot
+  container_name: backend_despachos
+  ports:
+    - "8081:8080"
+  depends_on:
+    - postgres_db
+  networks:
+    - red_interna_back
+    - red_compartida_front
+  restart: always
+
+# Backend 2: Ventas (Entra a la subcarpeta interna donde guardaste el Dockerfile de la foto)
+back-ventas:
+  build: ./back-Ventas_SpringBoot/SpringBoot-API-REST
+  container_name: backend_ventas
+  ports:
+    - "8082:8080"
+  depends_on:
+    - postgres_db
+  networks:
+    - red_interna_back
+    - red_compartida_front
+  restart: always
