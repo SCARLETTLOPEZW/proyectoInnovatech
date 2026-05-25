@@ -1,0 +1,14 @@
+    - name: Compilar y subir Frontend
+      run: |
+        docker build -t sclopez/front-despacho:latest ./front_despacho
+        docker push sclopez/front-despacho:latest
+
+    - name: Compilar y subir Backend Despachos
+      run: |
+        docker build -t sclopez/back-despachos:latest ./back-Despachos_SpringBoot/SpringBoot-API-REST-DESPACHO
+        docker push sclopez/back-despachos:latest
+
+    - name: Compilar y subir Backend Ventas
+      run: |
+        docker build -t sclopez/back-ventas:latest ./back-Ventas_SpringBoot/SpringBoot-API-REST
+        docker push sclopez/back-ventas:latest
