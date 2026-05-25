@@ -1,25 +1,59 @@
-# Backend 1: Despachos (Busca el Dockerfile directamente en la carpeta raíz)
-back-despachos:
-  build: ./back-Despachos_SpringBoot
-  container_name: backend_despachos
-  ports:
-    - "8081:8080"
-  depends_on:
-    - postgres_db
-  networks:
-    - red_interna_back
-    - red_compartida_front
-  restart: always
+version: '3.8'
 
-# Backend 2: Ventas (Entra a la subcarpeta interna donde guardaste el Dockerfile de la foto)
-back-ventas:
-  build: ./back-Ventas_SpringBoot/SpringBoot-API-REST
-  container_name: backend_ventas
-  ports:
-    - "8082:8080"
-  depends_on:
-    - postgres_db
-  networks:
-    - red_interna_back
-    - red_compartida_front
-  restart: always
+services:
+  # Base de datos relacional indispensable para la persistencia
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: base_datos_proyectos
+    environment:
+      POSTGRES_USER: user_admin
+      POSTGRES_PASSWORD: password_seguro123
+      POSTGRES_DB: bd_sistema
+    volumes:
+      - datos_postgres:/var/lib/postgresql/data
+    networks:
+      - red_interna_back
+    restart: always
+
+  # Backend 1: Despachos (Apunta directamente a su subcarpeta interna)
+  back-despachos:
+    build: ./back-Despachos_SpringBoot/SpringBoot-API-REST-DESPACHO
+    container_name: backend_despachos
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres_db
+    networks:
+      - red_interna_back
+      - red_compartida_front
+    restart: always
+
+  # Backend 2: Ventas (Apunta directamente a su subcarpeta interna)
+  back-ventas:
+    build: ./back-Ventas_SpringBoot/SpringBoot-API-REST
+    container_name: backend_ventas
+    ports:
+      - "8082:8080"
+    depends_on:
+      - postgres_db
+    networks:
+      - red_interna_back
+      - red_compartida_front
+    restart: always
+
+  # Frontend: Aplicación web de despacho
+  front-despacho:
+    build: ./front_despacho
+    container_name: frontend_despacho
+    ports:
+      - "80:80"
+    networks:
+      - red_compartida_front
+    restart: always
+
+volumes:
+  datos_postgres: # Named volume requerido para cumplir con la pauta de evaluación
+
+networks:
+  red_interna_back:     # Aísla la base de datos de accesos externos directos
+  red_compartida_front: # Permite conectar el flujo de la interfaz con los Backends

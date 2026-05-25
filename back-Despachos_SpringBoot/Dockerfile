@@ -1,26 +1,23 @@
-# Etapa 1: Compilación de la aplicación Java
-FROM eclipse-temurin:17-jdk-alpine AS build
+# Etapa 1: Construcción (Node + Vite)
+FROM node:20-alpine AS builder
 WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY ../..  .
+RUN npm run build
 
-# Copiar el empaquetador de Maven y configuraciones preliminares
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+# Etapa 2: Servidor de producción (Nginx con usuario seguro)
+FROM nginx:alpine-slim
 
-# Copiar el código fuente y empaquetar el archivo .jar sin ejecutar los tests
-COPY src ./src
-RUN ./mvnw clean package -DskipTests
+# Crear usuario seguro en minúsculas y asignar permisos
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup \
+    && chown -R appuser:appgroup /usr/share/nginx/html \
+    && chown -R appuser:appgroup /var/cache/nginx \
+    && chown -R appuser:appgroup /var/log/nginx \
+    && touch /var/run/nginx.pid && chown appuser:appgroup /var/run/nginx.pid
 
-# Etapa 2: Entorno de ejecución ultra ligero y seguro
-FROM eclipse-temurin:17-jre-alpine
-WORKDIR /app
-
-# Crear un usuario no-root por seguridad para la defensa técnica
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copiar únicamente el archivo compilado desde la etapa anterior
-COPY --from=build /app/target/*.jar app.jar
-
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
