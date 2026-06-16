@@ -47,3 +47,12 @@ jobs:
             git pull origin main
             docker compose pull
             docker compose up -d --remove-orphans
+
+ deploy-to-eks:
+ on:
+   punsh:
+     branches: ["main"]
+ jobs:
+   buil_and_deploy:
+     runs-on: ubuntu-lastest
+ 
