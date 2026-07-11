@@ -30,7 +30,7 @@ services:
 
   # Backend 2: Ventas (Apunta directamente a su subcarpeta interna)
   back-ventas:
-    build: ./back-Ventas_SpringBoot/SpringBoot-API-REST
+    build: ./back-Ventas_SpringBoot/Springboot-API-REST
     container_name: backend_ventas
     ports:
       - "8082:8080"
