@@ -17,7 +17,7 @@ services:
 
   # Backend 1: Despachos (Apunta directamente a su subcarpeta interna)
   back-despachos:
-    build: ./back-Despachos_SpringBoot/SpringBoot-API-REST-DESPACHO
+    build: ./back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO
     container_name: backend_despachos
     ports:
       - "8081:8080"
