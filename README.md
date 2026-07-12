@@ -385,3 +385,10 @@ echo "========== API DESPACHOS =========="
 curl -s -o /dev/null -w "HTTP DESPACHOS: %{http_code}\n" \
 http://localhost:8081/api/v1/despachos
 <img width="952" height="633" alt="image" src="https://github.com/user-attachments/assets/5405324a-eea3-4a18-87f8-7da47604032a" />
+
+<img width="366" height="213" alt="Captura de pantalla 2026-07-11 184719" src="https://github.com/user-attachments/assets/f256b458-43e0-477e-bbf0-77bce7777d2f" />
+<img width="1896" height="922" alt="Captura de pantalla 2026-07-11 190543" src="https://github.com/user-attachments/assets/452a52e9-d8aa-47bb-ab0a-fffa0f4c1a33" />
+<img width="1902" height="1025" alt="Captura de pantalla 2026-07-11 190031" src="https://github.com/user-attachments/assets/eb212a07-b9e7-4388-bc7a-d2320dd2395b" />
+<img width="1916" height="1062" alt="Captura de pantalla 2026-07-11 190008" src="https://github.com/user-attachments/assets/d140e60c-df55-4562-aede-fa9ab324c786" />
+<img width="1490" height="355" alt="Captura de pantalla 2026-07-11 190004" src="https://github.com/user-attachments/assets/33ae25c2-70ab-4b96-94d6-15cbfc89ab32" />
+
